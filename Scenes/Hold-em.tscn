@@ -1,0 +1,131 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Scenes/Hold-em.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Fonts/Montserrat-SemiBold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Assets/Fonts/Montserrat-Medium.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 14
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.941176, 0.964706, 0.941176, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.133333, 0.137255, 0.137255, 1 )
+
+[sub_resource type="Theme" id=2]
+Label/colors/font_color = Color( 0.941176, 0.964706, 0.941176, 1 )
+Label/fonts/font = SubResource( 1 )
+TooltipLabel/colors/font_color = Color( 0.133333, 0.137255, 0.137255, 1 )
+TooltipLabel/fonts/font = SubResource( 4 )
+TooltipPanel/styles/panel = SubResource( 3 )
+
+[node name="Hold-em" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 2 )
+script = ExtResource( 2 )
+
+[node name="Players" type="Control" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -960.0
+margin_right = 960.0
+margin_bottom = 128.0
+
+[node name="PlayerList" type="HBoxContainer" parent="Players"]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -960.0
+margin_right = 960.0
+margin_bottom = 128.0
+custom_constants/separation = 64
+alignment = 1
+
+[node name="Table" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -960.0
+margin_top = -156.0
+margin_right = 960.0
+margin_bottom = 228.0
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Table"]
+margin_top = 159.0
+margin_right = 1920.0
+margin_bottom = 190.0
+custom_constants/separation = 64
+alignment = 1
+
+[node name="Flop1" type="Label" parent="Table/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 832.0
+margin_right = 832.0
+margin_bottom = 31.0
+
+[node name="Flop2" type="Label" parent="Table/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 896.0
+margin_right = 896.0
+margin_bottom = 31.0
+
+[node name="Flop3" type="Label" parent="Table/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 960.0
+margin_right = 960.0
+margin_bottom = 31.0
+
+[node name="Turn" type="Label" parent="Table/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 1024.0
+margin_right = 1024.0
+margin_bottom = 31.0
+
+[node name="River" type="Label" parent="Table/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 1088.0
+margin_right = 1088.0
+margin_bottom = 31.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Table"]
+margin_top = 194.0
+margin_right = 1920.0
+margin_bottom = 225.0
+custom_constants/separation = 64
+alignment = 1
+
+[node name="PotLbl" type="Label" parent="Table/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 960.0
+margin_right = 960.0
+margin_bottom = 31.0
+
+[node name="RoundLbl" type="Label" parent="Table/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+margin_left = 960.0
+margin_right = 960.0
+margin_bottom = 31.0
+
+[node name="ActionLbl" type="Label" parent="Table/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+margin_left = 992.0
+margin_right = 992.0
+margin_bottom = 31.0
