@@ -26,6 +26,8 @@ var cards = []
 #reset to default after every hand
 var community_cards = ["-", "-", "-", "-", "-"]
 
+var previous_action = "-"
+
 var five_card_combinations = {
 	"Four": [
 		[1,2,3,4],
@@ -60,6 +62,61 @@ var five_card_combinations = {
 	]
 }
 
+var six_card_combinations = {
+	"Five": [
+		[1,2,3,4,5],
+		[1,2,3,4,6],
+		[1,2,3,5,6],
+		[1,2,4,5,6],
+		[1,3,4,5,6],
+		[2,3,4,5,6]
+	]
+}
+
+var seven_card_combinations = {
+	"Five": [
+		[3,4,5,6,7],
+		[2,4,5,6,7],
+		[2,3,5,6,7],
+		[2,3,4,6,7],
+		[2,3,4,5,7],
+		[2,3,4,5,6],
+		
+		[1,4,5,6,7],
+		[1,3,5,6,7],
+		[1,3,4,6,7],
+		[1,3,4,5,7],
+		[1,3,4,5,6],
+		
+		[1,2,5,6,7],
+		[1,2,4,6,7],
+		[1,2,4,5,7],
+		[1,2,4,5,6],
+		
+		[1,2,3,6,7],
+		[1,2,3,5,7],
+		[1,2,3,5,6],
+		
+		[1,2,3,4,7],
+		[1,2,3,4,6],
+		
+		[1,2,3,4,5]
+	]
+}
+
+var hand_rankings = {
+	"Royal Flush": 1,
+	"Straight Flush": 2,
+	"Four of a Kind": 3,
+	"Full House": 4,
+	"Flush": 5,
+	"Straight": 6,
+	"Three of a Kind": 7,
+	"Two Pair": 8,
+	"Pair": 9,
+	"Rags": 10
+}
+
 var hand_rankings_reference = {
 	"Royal Flush": ["Ace", "Jack", "Queen", "King", "10"],
 } 
@@ -69,11 +126,10 @@ var current_bet_amount = 0
 
 var current_action = ""
 
-var small_blind_amount = 10
-var big_blind_amount = 20
+var small_blind_amount = 5
+var big_blind_amount = 10
 
 var pot = 0
-
 
 var rng = RandomNumberGenerator.new()
 

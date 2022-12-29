@@ -27,19 +27,22 @@ func check_round():
 	if current_round == 0:
 		initial_round_bets()
 	elif current_round == 1:
+		print("---------------")
 		first_round_bets()
 	elif current_round == 2:
 		flop()
 	elif current_round == 3:
-		print("-----------")
+		print("---------------")
 		standard_round_bets()
 	elif current_round == 4:
 		turn_or_river(3)
 	elif current_round == 5:
+		print("---------------")
 		standard_round_bets()
 	elif current_round == 6:
 		turn_or_river(4)
 	elif current_round == 7:
+		print("---------------")
 		standard_round_bets()
 		
 func initial_round_bets():
@@ -54,6 +57,7 @@ func initial_blind_bets():
 		player.blind_bet()
 
 func first_round_bets():
+#	Globals.previous_action = "Bet"
 	check_players_status()
 	for player_index in range(blind_indexes[2], active_player_count):
 		player_list.get_child(player_index).act(current_round)
@@ -111,16 +115,7 @@ func create_players():
 		player_list.add_child(player)
 		player.create_player()
 	
-
-func test():
-	var arr = [2,2,3,2]
-
-	if arr[0] == arr[1] and arr[1] == arr[2] and arr[2] and arr[3]:
-		print("ok")
-	else:
-		print("bad")
-				
-
+	
 func _process(delta):
 	pot_lbl.text = str(Globals.pot)
 	round_lbl.text = str(current_round)
