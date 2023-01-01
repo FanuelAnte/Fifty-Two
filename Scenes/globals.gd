@@ -131,6 +131,8 @@ var big_blind_amount = 10
 
 var pot = 0
 
+var active_player_count = 0
+
 var rng = RandomNumberGenerator.new()
 
 func _ready():

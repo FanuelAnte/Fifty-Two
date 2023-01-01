@@ -112,20 +112,18 @@ alignment = 1
 
 [node name="PotLbl" type="Label" parent="Table/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 960.0
-margin_right = 960.0
+margin_left = 896.0
+margin_right = 896.0
 margin_bottom = 31.0
 
 [node name="RoundLbl" type="Label" parent="Table/HBoxContainer"]
 unique_name_in_owner = true
-visible = false
 margin_left = 960.0
 margin_right = 960.0
 margin_bottom = 31.0
 
 [node name="ActionLbl" type="Label" parent="Table/HBoxContainer"]
 unique_name_in_owner = true
-visible = false
-margin_left = 992.0
-margin_right = 992.0
+margin_left = 1024.0
+margin_right = 1024.0
 margin_bottom = 31.0

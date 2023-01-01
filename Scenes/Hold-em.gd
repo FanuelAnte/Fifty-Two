@@ -28,22 +28,35 @@ func check_round():
 		initial_round_bets()
 	elif current_round == 1:
 		print("---------------")
+		print(current_round)
+		print("------")
 		first_round_bets()
 	elif current_round == 2:
 		flop()
 	elif current_round == 3:
 		print("---------------")
+		print(current_round)
+		print("------")
+		Globals.current_bet_amount = 0
 		standard_round_bets()
 	elif current_round == 4:
 		turn_or_river(3)
 	elif current_round == 5:
 		print("---------------")
+		print(current_round)
+		print("------")
+		Globals.current_bet_amount = 0
 		standard_round_bets()
 	elif current_round == 6:
 		turn_or_river(4)
 	elif current_round == 7:
 		print("---------------")
+		print(current_round)
+		print("------")
+		Globals.current_bet_amount = 0
 		standard_round_bets()
+	elif current_round == 8:
+		pass
 		
 func initial_round_bets():
 	check_players_status()
@@ -57,14 +70,25 @@ func initial_blind_bets():
 		player.blind_bet()
 
 func first_round_bets():
-#	Globals.previous_action = "Bet"
+	Globals.previous_action = "Bet"
+	
 	check_players_status()
+	Globals.active_player_count = active_player_count
+	
+	var action_indexes = []
+	
 	for player_index in range(blind_indexes[2], active_player_count):
-		player_list.get_child(player_index).act(current_round)
+		action_indexes.append(player_list.get_child(player_index).get_index())
 		
 	for player_index in range(0, blind_indexes[2]):
-		player_list.get_child(player_index).act(current_round)
-	
+		action_indexes.append(player_list.get_child(player_index).get_index())
+		
+	for action_index in action_indexes:
+		var current_player = player_list.get_child(action_index)
+		current_player.act(current_round)
+		if current_player.is_player and current_player.is_active:
+			yield(current_player, "just_acted")
+		
 	current_round += 1
 	check_round()
 
@@ -75,12 +99,24 @@ func flop():
 	check_round()
 	
 func standard_round_bets():
+	Globals.previous_action = "-"
+	
 	check_players_status()
-	for player_index in range(blind_indexes[1], player_list.get_child_count()):
-		player_list.get_child(player_index).act(current_round)
+	Globals.active_player_count = active_player_count
+	
+	var action_indexes = []
+	
+	for player_index in range(blind_indexes[0], player_list.get_child_count()):
+		action_indexes.append(player_list.get_child(player_index).get_index())
 		
-	for player_index in range(0, blind_indexes[1]):
-		player_list.get_child(player_index).act(current_round)
+	for player_index in range(0, blind_indexes[0]):
+		action_indexes.append(player_list.get_child(player_index).get_index())
+		
+	for action_index in action_indexes:
+		var current_player = player_list.get_child(action_index)
+		current_player.act(current_round)
+		if current_player.is_player and current_player.is_active:
+			yield(current_player, "just_acted")
 		
 	current_round += 1
 	check_round()
@@ -104,23 +140,30 @@ func assign_blinds():
 	
 #This needs to be called at the start of every hand.
 func check_players_status():
-	active_player_count = 0
+	var active_player_count_t = 0
 	for player in player_list.get_children():
 		if player.is_active:
-			active_player_count += 1
+			active_player_count_t += 1
+	active_player_count = active_player_count_t
 	
 func create_players():
 	for i in range(1, 6):
 		var player = player_scene.instance()
 		player_list.add_child(player)
 		player.create_player()
+		
+#	print(player_list.get_child_count())
 	
+	randomize()
+	var player_id = randi() % player_list.get_child_count()
+	player_list.get_child(player_id).is_player = true
 	
 func _process(delta):
 	pot_lbl.text = str(Globals.pot)
 	round_lbl.text = str(current_round)
 	action_lbl.text = Globals.current_action
-		
+	
+	
 	flop_card_1.text = Globals.community_cards[0]
 	flop_card_2.text = Globals.community_cards[1]
 	flop_card_3.text = Globals.community_cards[2]

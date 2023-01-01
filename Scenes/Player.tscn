@@ -59,3 +59,103 @@ margin_right = 131.0
 margin_bottom = 21.0
 custom_fonts/font = SubResource( 1 )
 text = "-"
+
+[node name="Panel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+margin_left = -32.0
+margin_top = 128.0
+margin_right = 160.0
+margin_bottom = 336.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+margin_right = 192.0
+margin_bottom = 208.0
+custom_constants/separation = 32
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 12.0
+margin_right = 192.0
+margin_bottom = 36.0
+custom_constants/separation = 16
+alignment = 1
+
+[node name="BetBtn" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 26.0
+margin_right = 76.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 20 )
+text = "Bet"
+
+[node name="BetAmnt" type="SpinBox" parent="Panel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 92.0
+margin_right = 166.0
+margin_bottom = 24.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 68.0
+margin_right = 192.0
+margin_bottom = 88.0
+custom_constants/separation = 16
+alignment = 1
+
+[node name="CallBtn" type="Button" parent="Panel/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 38.0
+margin_right = 88.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 50, 20 )
+text = "Call"
+
+[node name="CheckBtn" type="Button" parent="Panel/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 104.0
+margin_right = 154.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 50, 20 )
+text = "Check"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 120.0
+margin_right = 192.0
+margin_bottom = 140.0
+custom_constants/separation = 16
+alignment = 1
+
+[node name="FoldBtn" type="Button" parent="Panel/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+margin_left = 71.0
+margin_right = 121.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 50, 20 )
+text = "Fold"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 172.0
+margin_right = 192.0
+margin_bottom = 196.0
+custom_constants/separation = 16
+alignment = 1
+
+[node name="RaiseBtn" type="Button" parent="Panel/VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+margin_left = 26.0
+margin_right = 76.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 20 )
+text = "Raise"
+
+[node name="RaiseAmnt" type="SpinBox" parent="Panel/VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+margin_left = 92.0
+margin_right = 166.0
+margin_bottom = 24.0
+
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/BetBtn" to="." method="_on_BetBtn_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer2/CallBtn" to="." method="_on_CallBtn_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer2/CheckBtn" to="." method="_on_CheckBtn_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer3/FoldBtn" to="." method="_on_FoldBtn_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer4/RaiseBtn" to="." method="_on_RaiseBtn_pressed"]
