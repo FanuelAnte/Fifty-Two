@@ -1,41 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=4 format=2]
 
+[ext_resource path="res://Assets/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://Scenes/Hold-em.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Fonts/Montserrat-SemiBold.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://Assets/Fonts/Montserrat-Medium.ttf" type="DynamicFontData" id=5]
-
-[sub_resource type="DynamicFont" id=1]
-size = 24
-use_filter = true
-font_data = ExtResource( 3 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 14
-font_data = ExtResource( 5 )
-
-[sub_resource type="StyleBoxFlat" id=3]
-content_margin_left = 10.0
-content_margin_right = 10.0
-content_margin_top = 10.0
-content_margin_bottom = 10.0
-bg_color = Color( 0.941176, 0.964706, 0.941176, 1 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.133333, 0.137255, 0.137255, 1 )
-
-[sub_resource type="Theme" id=2]
-Label/colors/font_color = Color( 0.941176, 0.964706, 0.941176, 1 )
-Label/fonts/font = SubResource( 1 )
-TooltipLabel/colors/font_color = Color( 0.133333, 0.137255, 0.137255, 1 )
-TooltipLabel/fonts/font = SubResource( 4 )
-TooltipPanel/styles/panel = SubResource( 3 )
+[ext_resource path="res://icon.png" type="Texture" id=4]
 
 [node name="Hold-em" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = SubResource( 2 )
+theme = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Players" type="Control" parent="."]
@@ -64,6 +36,7 @@ margin_left = -960.0
 margin_top = -156.0
 margin_right = 960.0
 margin_bottom = 228.0
+mouse_filter = 2
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Table"]
@@ -127,3 +100,8 @@ unique_name_in_owner = true
 margin_left = 1024.0
 margin_right = 1024.0
 margin_bottom = 31.0
+
+[node name="Icon" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1376, 224 )
+texture = ExtResource( 4 )

@@ -37,16 +37,24 @@ var is_active = true
 
 var is_player = false
 
+var hand_rank = 10
+
+var winning_hand = []
+
 func _ready():
-	pass
+	connect("just_acted", self, "act", [0])
 	
 func _process(delta):
-	hint_tooltip = types[type] + "\n" + hole[0] + "\n" + hole[1] + "\n" + str(is_player)
+	hint_tooltip = types[type] + "\n" + hole[0] + "\n" + hole[1] + "\n" + str(is_player) + "\n" + str(winning_hand)
 	name_lbl.text = player_name
 	cash_lbl.text = "$ " + str(cash)
 	if is_player:
-		actions_panel.show()
-
+		if Globals.current_round <= 8:
+			actions_panel.show()
+		else:
+			actions_panel.hide()
+			
+			
 func deal_hand():
 	for i in range(2):
 		hole.append(Globals.pick_card())
@@ -55,39 +63,48 @@ func create_player():
 	player_name = Globals.pick_name()
 	deal_hand()
 	
+func showdown():
+	var showdown_info = {}
+	var final_hand_rank = rank_hand(7)
+	
+	showdown_info[player_name] = [final_hand_rank, winning_hand]
+	
+	return showdown_info
+	
 func act(current_round):
 	var previous_action = Globals.previous_action
 	
-#	print(Globals.current_bet_amount)
+	hand_rank = rank_hand(current_round)
+	
+#	if is_active:
+#		print(player_name + " " + str(hand_rank) + " " + Globals.hand_rankings_names[hand_rank])
 	
 	if !is_player:
 		randomize()
 		if is_active:
 #			emit_signal("just_acted")
 			if Globals.active_player_count > 1:
-				var hand_rank = rank_hand(current_round)
 				
-				print(player_name + " hand rank " + str(hand_rank))
+#				print(player_name + " hand rank " + str(hand_rank))
 				
 				if current_round == 1:
 					var action = actions[aggressive_actions[randi() % aggressive_actions.size()]]
 					if action == "raise_bet":
-						call(action, Globals.current_bet_amount * 2)
+						call(action, Globals.big_blind_amount)
 					else:
 						call(action)
 							
 				elif current_round == 3 or current_round == 5 or current_round == 7:
 					if hand_rank < 10:
 						if previous_action == "-" or previous_action == "Fold" or previous_action == "Check":
-							bet(randi() % int(cash/2) + 5)
+							if cash >= Globals.big_blind_amount:
+								bet(Globals.big_blind_amount)
+							else:
+								check()
 						else:
 							var action = actions[aggressive_actions[randi() % aggressive_actions.size()]]
 							if action == "raise_bet":
-								if cash >= Globals.current_bet_amount * 2:
-									call(action, Globals.current_bet_amount * 2)
-								else:
-									call(action, cash)
-									
+								call(action, Globals.big_blind_amount)
 							else:
 								call(action)
 					else:
@@ -104,8 +121,9 @@ func act(current_round):
 		if is_active:
 			if Globals.active_player_count > 1:
 				if previous_action == "-" or previous_action == "Fold" or previous_action == "Check":
-					bet_amount_spinner.min_value = 1
+					bet_amount_spinner.min_value = Globals.big_blind_amount
 					bet_amount_spinner.max_value = cash
+						
 					raise_amount_spinner.editable = false
 					call_btn.disabled = true
 					raise_btn.disabled = true
@@ -113,9 +131,10 @@ func act(current_round):
 					check_btn.disabled = false
 					bet_amount_spinner.editable = true
 				else:
-					bet_amount_spinner.editable = false
-					raise_amount_spinner.min_value = Globals.current_bet_amount * 2
+					raise_amount_spinner.min_value = Globals.big_blind_amount
 					raise_amount_spinner.max_value = cash
+						
+					bet_amount_spinner.editable = false
 					bet_btn.disabled = true
 					check_btn.disabled = true
 					call_btn.disabled = false
@@ -128,12 +147,13 @@ func act(current_round):
 			elif Globals.active_player_count == 1:
 				print(player_name + " wins")
 			
+		
 func rank_hand(current_round):
 	var card_values = []
 	var card_suits = []
 	var card_value_indexes = []
 	
-	var rank = 10
+	var rank = hand_rank
 	
 	if current_round == 1:
 		for card in hole:
@@ -201,6 +221,7 @@ func rank_hand(current_round):
 					card_value_indexes.append(card_value_rank[0])
 		
 		rank = post_flop_round_ranking(card_values, card_suits, card_value_indexes)
+		winning_hand = card_values
 			
 	elif current_round == 5:
 		var five_card_combos = []
@@ -228,7 +249,8 @@ func rank_hand(current_round):
 		for hand in five_card_combos:
 			if rank > post_flop_round_ranking(hand, card_suits, card_value_indexes):
 				rank = post_flop_round_ranking(hand, card_suits, card_value_indexes)
-	
+				winning_hand = hand
+				
 	elif current_round == 7:
 		var five_card_combos = []
 		
@@ -255,7 +277,8 @@ func rank_hand(current_round):
 		for hand in five_card_combos:
 			if rank > post_flop_round_ranking(hand, card_suits, card_value_indexes):
 				rank = post_flop_round_ranking(hand, card_suits, card_value_indexes)
-	
+				winning_hand = hand
+				
 	return rank
 	
 func get_combinations(card_list, hand_size, chunk_size):
@@ -418,37 +441,37 @@ func call_bet():
 		cash -= Globals.current_bet_amount
 		Globals.pot += Globals.current_bet_amount
 		Globals.previous_action = "Call"
-		print(player_name + " Calls " + str(Globals.current_bet_amount))
+#		print(player_name + " Calls " + str(Globals.current_bet_amount))
 	else:
 		fold()
-	
+		
 func bet(amount):
 	cash -= amount
 	Globals.pot += amount
 	Globals.current_bet_amount = amount
 	Globals.previous_action = "Bet"
-	print(player_name + " Bets " + str(amount))
+#	print(player_name + " Bets " + str(amount))
 	
 func fold():
 	is_active = false
 	set_modulate(Color(1, 1, 1, 0.3))
 #	Globals.previous_action = "Fold"
-	print(player_name + " Folds")
+#	print(player_name + " Folds")
 	
 func check():
 	Globals.previous_action = "Check"
-	print(player_name + " Checks")
+#	print(player_name + " Checks")
 	
 func raise_bet(amount):
-	if cash >= amount:
+	if cash >= Globals.current_bet_amount + amount:
 		cash -= Globals.current_bet_amount + amount
 		Globals.pot += Globals.current_bet_amount + amount
 		Globals.current_bet_amount = Globals.current_bet_amount + amount
 		Globals.previous_action = "Raise"
-		print(player_name + " Raises " + str(amount))
+#		print(player_name + " Raises " + str(amount))
 	else:
 		call_bet()
-		
+	
 func sort_cards(a, b):
 	var rank_a
 	var rank_b

@@ -117,12 +117,27 @@ var hand_rankings = {
 	"Rags": 10
 }
 
+var hand_rankings_names = {
+	1: "Royal Flush",
+	2: "Straight Flush",
+	3: "Four of a Kind",
+	4: "Full House",
+	5: "Flush",
+	6: "Straight",
+	7: "Three of a Kind",
+	8: "Two Pair",
+	9: "Pair",
+	10: "Rags"
+}
+
 var hand_rankings_reference = {
 	"Royal Flush": ["Ace", "Jack", "Queen", "King", "10"],
 } 
 
 #reset to zero every round
 var current_bet_amount = 0
+
+var current_round = 0
 
 var current_action = ""
 
